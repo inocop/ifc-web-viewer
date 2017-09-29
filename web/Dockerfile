@@ -15,35 +15,17 @@ COPY ./dotnet.conf /etc/httpd/conf.d/dotnet.conf
 
 
 # add db tools
-RUN yum install -y wget php php-mysqli php-mbstring 
+RUN yum install -y wget unzip php php-mysqli php-mbstring
 RUN mkdir -p /var/www/html/tools
 RUN cd /var/www/html/tools && wget https://github.com/vrana/adminer/releases/download/v4.3.1/adminer-4.3.1.php
-RUN mv /var/www/html/tools/adminer-4.3.1.php /var/www/html/tools/adminer.php 
+RUN mv /var/www/html/tools/adminer-4.3.1.php /var/www/html/tools/adminer.php
 
 
-WORKDIR /tmp
-
-# add ifcopenshell
-RUN yum install -y git \
-                   cmake \
-                   gcc \
-                   gcc-c++ \
-                   boost-devel \
-                   libicu-devel \
-                   tbb-devel \
-                   ftgl-devel \
-                   mesa-libGL-devel \
-                   mesa-libGLU-devel \
-                   freetype-devel \
-                   swig \
-                   python-devel \
-                   OCE-devel
-
-RUN cd /opt && git clone https://github.com/IfcOpenShell/IfcOpenShell.git
-#RUN mkdir -p /opt/IfcOpenShell/build
-#RUN cd /opt/IfcOpenShell/build && cmake ../cmake -DCOLLADA_SUPPORT=0
-#RUN cd /opt/IfcOpenShell/build make -j
-
+RUN mkdir -p /opt/IfcOpenShell
+WORKDIR /opt/IfcOpenShell
+RUN wget http://sourceforge.net/projects/ifcopenshell/files/0.4.0-rc2/IfcConvert-0.4.0-rc2-linux64.zip/download -O IfcConvert.zip
+RUN unzip IfcConvert.zip
+RUN ln -s /opt/IfcOpenShell/IfcConvert/IfcConvert /usr/local/bin
 
 # install dotnet
 #RUN yum -y install libunwind libicu
