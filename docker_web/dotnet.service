@@ -2,7 +2,7 @@
 Description=dotnet web application
 
 [Service]
-ExecStart=/usr/bin/dotnet /opt/dotnet/src/ifc_web_viewer/bin/Debug/netcoreapp2.0/ifc_web_viewer.dll
+ExecStart=/usr/bin/dotnet /opt/dotnet/src/ifc_web_viewer/bin/publish/ifc_web_viewer.dll
 WorkingDirectory=/opt/dotnet/src/ifc_web_viewer
 Restart=always
 RestartSec=10

@@ -1,15 +1,8 @@
 version: '2'
 services:
-  db:
-    build: ./db
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_USER=testing
-      - MYSQL_PASSWORD=testing
-      - MYSQL_DATABASE=testing
 
   web:
-    build: ./web
+    build: ./docker_web
     ports:
       - "8888:80"
     volumes:
