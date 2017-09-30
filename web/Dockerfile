@@ -15,7 +15,7 @@ COPY ./dotnet.conf /etc/httpd/conf.d/dotnet.conf
 
 
 # add db tools
-RUN yum install -y wget unzip php php-mysqli php-mbstring
+RUN yum install -y wget unzip php php-mysqli php-mbstring which
 RUN mkdir -p /var/www/html/tools
 RUN cd /var/www/html/tools && wget https://github.com/vrana/adminer/releases/download/v4.3.1/adminer-4.3.1.php
 RUN mv /var/www/html/tools/adminer-4.3.1.php /var/www/html/tools/adminer.php
@@ -25,7 +25,8 @@ RUN mkdir -p /opt/IfcOpenShell
 WORKDIR /opt/IfcOpenShell
 RUN wget http://sourceforge.net/projects/ifcopenshell/files/0.4.0-rc2/IfcConvert-0.4.0-rc2-linux64.zip/download -O IfcConvert.zip
 RUN unzip IfcConvert.zip
-RUN ln -s /opt/IfcOpenShell/IfcConvert/IfcConvert /usr/local/bin
+RUN chmod 755 IfcConvert
+RUN ln -s /opt/IfcOpenShell/IfcConvert /usr/local/bin/IfcConvert
 
 
 # install dotnet
