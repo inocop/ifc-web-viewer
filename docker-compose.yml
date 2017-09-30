@@ -2,8 +2,6 @@ version: '2'
 services:
   db:
     build: ./db
-    ports:
-      - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_USER=testing
@@ -14,7 +12,6 @@ services:
     build: ./web
     ports:
       - "8888:80"
-      - "4444:443"
     volumes:
       - ./src:/opt/dotnet/src
     privileged: true

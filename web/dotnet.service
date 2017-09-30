@@ -1,0 +1,16 @@
+[Unit]
+Description=dotnet web application
+
+[Service]
+ExecStart=/usr/bin/dotnet /opt/dotnet/src/hello_dotnet/bin/Debug/netcoreapp2.0/hello_dotnet.dll
+WorkingDirectory=/opt/dotnet/src/hello_dotnet
+Restart=always
+RestartSec=10
+SyslogIdentifier=dotnet-web-application
+User=root
+Environment=ASPNETCORE_URLS=http://127.0.0.1:5000
+Environment=ASPNETCORE_ENVIRONMENT=Development
+Environment=DOTNET_USE_POLLING_FILE_WATCHER=1
+
+[Install]
+WantedBy=multi-user.target

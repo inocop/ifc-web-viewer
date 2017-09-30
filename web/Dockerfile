@@ -27,12 +27,15 @@ RUN wget http://sourceforge.net/projects/ifcopenshell/files/0.4.0-rc2/IfcConvert
 RUN unzip IfcConvert.zip
 RUN ln -s /opt/IfcOpenShell/IfcConvert/IfcConvert /usr/local/bin
 
+
 # install dotnet
-#RUN yum -y install libunwind libicu
-#RUN curl -sSL -o dotnet.tar.gz https://aka.ms/dotnet-sdk-2.0.0-linux-x64
-#RUN mkdir -p /opt/dotnet/sdk2.0.0 
-#RUN tar zxf dotnet.tar.gz -C /opt/dotnet/sdk2.0.0 
-#RUN ln -s /opt/dotnet/sdk2.0.0/dotnet /usr/local/bin
+RUN rpm --import https://packages.microsoft.com/keys/microsoft.asc
+RUN sh -c 'echo -e "[packages-microsoft-com-prod]\nname=packages-microsoft-com-prod \nbaseurl=https://packages.microsoft.com/yumrepos/microsoft-rhel7.3-prod\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/dotnetdev.repo'
+RUN yum install -y libunwind libicu
+RUN yum install -y dotnet-sdk-2.0.0
+COPY ./dotnet.service /etc/systemd/system/dotnet.service
+RUN systemctl enable dotnet.service
+
 
 # exec
 CMD ["/sbin/init"]
