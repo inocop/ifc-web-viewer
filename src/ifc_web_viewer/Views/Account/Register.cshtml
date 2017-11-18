@@ -11,6 +11,17 @@
             <h4>Create a new account.</h4>
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="UserShimei"></label>
+                <input asp-for="UserShimei" class="form-control" />
+                <span asp-validation-for="UserShimei" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserShimeiKana"></label>
+                <input asp-for="UserShimeiKana" class="form-control" />
+                <span asp-validation-for="UserShimeiKana" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Email"></label>
                 <input asp-for="Email" class="form-control" />
@@ -30,7 +41,6 @@
         </form>
     </div>
 </div>
-
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }

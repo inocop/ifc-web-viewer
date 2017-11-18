@@ -11,9 +11,10 @@ using System;
 namespace ifc_web_viewer.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171118031253_UserShimei")]
+    partial class UserShimei
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,9 +81,11 @@ namespace ifc_web_viewer.Data.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("AspNetUserId");
+
                     b.Property<string>("AspNetUsersId")
                         .IsRequired()
-                        .HasColumnName("UploadAspNetUsersId");
+                        .HasColumnName("UploadedAspNetUsersId");
 
                     b.Property<string>("FileName")
                         .IsRequired()
@@ -92,9 +95,9 @@ namespace ifc_web_viewer.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AspNetUsersId");
+                    b.HasIndex("AspNetUserId");
 
-                    b.ToTable("UploadFiles");
+                    b.ToTable("UploadFile");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -206,10 +209,9 @@ namespace ifc_web_viewer.Data.Migrations
 
             modelBuilder.Entity("ifc_web_viewer.Models.UploadFile", b =>
                 {
-                    b.HasOne("ifc_web_viewer.Models.ApplicationUser", "AspNetUsers")
+                    b.HasOne("ifc_web_viewer.Models.ApplicationUser", "AspNetUser")
                         .WithMany()
-                        .HasForeignKey("AspNetUsersId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("AspNetUserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -57,6 +57,8 @@ namespace ifc_web_viewer.Controllers
             var model = new IndexViewModel
             {
                 Username = user.UserName,
+                UserShimei = user.UserShimei,
+                UserShimeiKana = user.UserShimeiKana,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 IsEmailConfirmed = user.EmailConfirmed,
@@ -66,6 +68,12 @@ namespace ifc_web_viewer.Controllers
             return View(model);
         }
 
+
+        /// <summary>
+        /// アカウント情報更新
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(IndexViewModel model)
@@ -99,6 +107,14 @@ namespace ifc_web_viewer.Controllers
                 {
                     throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
                 }
+            }
+
+            user.UserShimei = model.UserShimei;
+            user.UserShimeiKana = model.UserShimeiKana;
+            var setshimei = await _userManager.UpdateAsync(user);
+            if (!setshimei.Succeeded)
+            {
+                throw new ApplicationException($"unexpected error occurred setting shimei for user with id '{user.Id}'.");
             }
 
             StatusMessage = "Your profile has been updated";

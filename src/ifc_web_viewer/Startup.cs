@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,6 +33,34 @@ namespace ifc_web_viewer
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.Configure<IdentityOptions>(options =>
+            {
+                //パスワード設定
+                //数字必須
+                options.Password.RequireDigit = false;
+                //最低文字数
+                options.Password.RequiredLength = 6;
+                //記号必須
+                options.Password.RequireNonAlphanumeric = false;
+                //大文字必須
+                options.Password.RequireUppercase = false;
+                //小文字必須
+                options.Password.RequireLowercase = false;
+                //最低構成の文字種類
+                options.Password.RequiredUniqueChars = 1;
+
+                //ロックアウト設定
+                //ロックアウト発生時のロックアウト時間
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                //ロックアウトまでのログイン失敗可能回数
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                //新規ユーザーにロックアウトを適用
+                options.Lockout.AllowedForNewUsers = true;
+
+                // User settings
+                options.User.RequireUniqueEmail = true;
+            });
+
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
@@ -45,6 +73,7 @@ namespace ifc_web_viewer
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseBrowserLink();
                 app.UseDatabaseErrorPage();
             }
             else

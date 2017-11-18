@@ -8,6 +8,14 @@ namespace ifc_web_viewer.Models.AccountViewModels
 {
     public class RegisterViewModel
     {
+        [Display(Name = "氏名")]
+        [MaxLength(25)]
+        public string UserShimei { get; set; }
+
+        [Display(Name = "ふりがな")]
+        [MaxLength(30)]
+        public string UserShimeiKana { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
