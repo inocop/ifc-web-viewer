@@ -58,7 +58,7 @@ namespace ifc_web_viewer.Data.Migrations
                         .HasMaxLength(256);
 
                     b.Property<string>("UserShimei")
-                        .HasMaxLength(25);
+                        .HasMaxLength(30);
 
                     b.Property<string>("UserShimeiKana")
                         .HasMaxLength(30);
@@ -84,9 +84,15 @@ namespace ifc_web_viewer.Data.Migrations
                         .IsRequired()
                         .HasColumnName("UploadAspNetUsersId");
 
+                    b.Property<bool>("DeleteFlg");
+
                     b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasMaxLength(255);
+                        .IsRequired();
+
+                    b.Property<string>("FilePath")
+                        .IsRequired();
+
+                    b.Property<long>("FileSize");
 
                     b.Property<DateTime>("UploadDate");
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ifc_web_viewer.Data.Migrations
 {
-    public partial class UploadFile : Migration
+    public partial class UploadFiles : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,7 +15,10 @@ namespace ifc_web_viewer.Data.Migrations
                     Id = table.Column<long>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     UploadAspNetUsersId = table.Column<string>(nullable: false),
-                    FileName = table.Column<string>(maxLength: 255, nullable: false),
+                    DeleteFlg = table.Column<bool>(nullable: false),
+                    FileName = table.Column<string>(nullable: false),
+                    FilePath = table.Column<string>(nullable: false),
+                    FileSize = table.Column<long>(nullable: false),
                     UploadDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
