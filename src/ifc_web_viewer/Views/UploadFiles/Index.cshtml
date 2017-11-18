@@ -12,16 +12,17 @@
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.FileName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.UploadDate)
-                </th>
             <th>
-                @Html.DisplayNameFor(model => model.AspNetUsers)
+                @Html.DisplayNameFor(model => model.FileName)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.UploadDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AspNetUsers.UserName)
+            </th>
+            <th>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -34,7 +35,8 @@
                 @Html.DisplayFor(modelItem => item.UploadDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AspNetUsers.Id)
+                @Html.DisplayFor(modelItem => item.AspNetUsers.UserShimei) <br>
+                @Html.DisplayFor(modelItem => item.AspNetUsers.Email)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ifc_web_viewer.Data;
 using ifc_web_viewer.Models;
 using Microsoft.AspNetCore.Authorization;
+using ifc_web_viewer.Models.UploadFilesViewModels;
 
 namespace ifc_web_viewer.Controllers
 {
@@ -59,7 +60,7 @@ namespace ifc_web_viewer.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FileName,UploadDate,AspNetUsersId")] UploadFile uploadFile)
+        public async Task<IActionResult> Create([Bind("UploadFile")] UploadFilesViewModel uploadFile)
         {
             if (ModelState.IsValid)
             {
@@ -67,7 +68,6 @@ namespace ifc_web_viewer.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AspNetUsersId"] = new SelectList(_context.Users, "Id", "Id", uploadFile.AspNetUsersId);
             return View(uploadFile);
         }
 
@@ -153,6 +153,14 @@ namespace ifc_web_viewer.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+
+        // GET: UploadFiles/Preview/5
+        public ActionResult Preview(long? id)
+        {
+            return View();
+        }
+
 
         private bool UploadFileExists(long id)
         {
