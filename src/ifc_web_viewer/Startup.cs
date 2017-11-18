@@ -11,6 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using ifc_web_viewer.Data;
 using ifc_web_viewer.Models;
 using ifc_web_viewer.Services;
+using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace ifc_web_viewer
 {
@@ -81,7 +85,15 @@ namespace ifc_web_viewer
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseStaticFiles();
+
+            var provider = new FileExtensionContentTypeProvider();
+            provider.Mappings[".mtl"] = "application/octet-stream";
+            provider.Mappings[".obj"] = "application/octet-stream";
+
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                ContentTypeProvider = provider
+            });
 
             app.UseAuthentication();
 
