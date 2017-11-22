@@ -80,10 +80,6 @@ namespace ifc_web_viewer.Data.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AspNetUsersId")
-                        .IsRequired()
-                        .HasColumnName("UploadAspNetUsersId");
-
                     b.Property<bool>("DeleteFlg");
 
                     b.Property<string>("FileName")
@@ -96,9 +92,11 @@ namespace ifc_web_viewer.Data.Migrations
 
                     b.Property<DateTime>("UploadDate");
 
+                    b.Property<string>("UploadUserId");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AspNetUsersId");
+                    b.HasIndex("UploadUserId");
 
                     b.ToTable("UploadFiles");
                 });
@@ -212,10 +210,9 @@ namespace ifc_web_viewer.Data.Migrations
 
             modelBuilder.Entity("ifc_web_viewer.Models.UploadFile", b =>
                 {
-                    b.HasOne("ifc_web_viewer.Models.ApplicationUser", "AspNetUsers")
+                    b.HasOne("ifc_web_viewer.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
-                        .HasForeignKey("AspNetUsersId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UploadUserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

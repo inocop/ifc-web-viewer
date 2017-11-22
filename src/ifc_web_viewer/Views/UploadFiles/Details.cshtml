@@ -17,20 +17,32 @@
             @Html.DisplayFor(model => model.FileName)
         </dd>
         <dt>
+            @Html.DisplayNameFor(model => model.FileSize)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FileSize)
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.UploadDate)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.UploadDate)
         </dd>
+
         <dt>
-            @Html.DisplayNameFor(model => model.AspNetUsers)
+            @Html.DisplayNameFor(model => model.ApplicationUser.UserShimei)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.AspNetUsers.UserShimei)
+            @Html.DisplayFor(model => model.ApplicationUser.UserShimei) <br />
+            @Html.DisplayFor(model => model.ApplicationUser.UserName)
+
         </dd>
+
     </dl>
 </div>
+
 <div>
+    <a href="@Url.Content("/UploadFiles/Preview")">Preview</a> |
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

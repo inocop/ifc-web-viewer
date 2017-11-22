@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -28,16 +28,11 @@ namespace ifc_web_viewer.Models
         public DateTime UploadDate { get; set; }
 
         [Required]
-        [Display(Name = "アップロードユーザー")]
-        [Column("UploadAspNetUsersId")]
-        [ForeignKey("Id")]
-        public string AspNetUsersId { get; set; }
-        public ApplicationUser AspNetUsers { get; set; }
-
-        [Required]
-        [Display(Name = "アップロード日時")]
+        [Display(Name = "削除フラグ")]
         [DefaultValue(false)]
         public bool DeleteFlg { get; set; }
 
+        [ForeignKey("UploadUserId")]
+        public virtual ApplicationUser ApplicationUser { get; set; }
     }
 }

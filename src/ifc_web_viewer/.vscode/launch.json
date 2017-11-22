@@ -17,7 +17,7 @@
                 "quoteArgs": false
             },
             "sourceFileMap": {
-                "/opt/dotnet/src/TodoWeb": "${workspaceRoot}"
+                "/opt/dotnet/src/ifc_web_viewer": "${workspaceRoot}"
             }
         }
     ]

@@ -25,7 +25,8 @@ namespace ifc_web_viewer.Controllers
         // GET: UploadFiles
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.UploadFiles.Include(u => u.AspNetUsers);
+            var applicationDbContext = _context.UploadFiles.Include(u => u.ApplicationUser);
+
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -38,7 +39,7 @@ namespace ifc_web_viewer.Controllers
             }
 
             var uploadFile = await _context.UploadFiles
-                .Include(u => u.AspNetUsers)
+                .Include(u => u.ApplicationUser)
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (uploadFile == null)
             {
@@ -51,7 +52,6 @@ namespace ifc_web_viewer.Controllers
         // GET: UploadFiles/Create
         public IActionResult Create()
         {
-            ViewData["AspNetUsersId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
@@ -60,7 +60,7 @@ namespace ifc_web_viewer.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UploadFile")] UploadFilesViewModel uploadFile)
+        public async Task<IActionResult> Create([Bind("Id,FilePath,FileName,FileSize,UploadDate,DeleteFlg")] UploadFile uploadFile)
         {
             if (ModelState.IsValid)
             {
@@ -84,7 +84,6 @@ namespace ifc_web_viewer.Controllers
             {
                 return NotFound();
             }
-            ViewData["AspNetUsersId"] = new SelectList(_context.Users, "Id", "Id", uploadFile.AspNetUsersId);
             return View(uploadFile);
         }
 
@@ -93,7 +92,7 @@ namespace ifc_web_viewer.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,FileName,UploadDate,AspNetUsersId")] UploadFile uploadFile)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,FilePath,FileName,FileSize,UploadDate,DeleteFlg")] UploadFile uploadFile)
         {
             if (id != uploadFile.Id)
             {
@@ -120,7 +119,6 @@ namespace ifc_web_viewer.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AspNetUsersId"] = new SelectList(_context.Users, "Id", "Id", uploadFile.AspNetUsersId);
             return View(uploadFile);
         }
 
@@ -133,7 +131,6 @@ namespace ifc_web_viewer.Controllers
             }
 
             var uploadFile = await _context.UploadFiles
-                .Include(u => u.AspNetUsers)
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (uploadFile == null)
             {
