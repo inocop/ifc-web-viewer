@@ -5,6 +5,7 @@ services:
     build: ./docker_web
     ports:
       - "8888:80"
+      - "2020:22"
     volumes:
       - ./src:/opt/dotnet/src
     privileged: true
