@@ -1,8 +1,13 @@
-@*
+﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+
+@model ifc_web_viewer.Models.UploadFile
 @{
     Layout = null;
+
+    var extension = System.IO.Path.GetExtension(Model.FileName);
+    var filename = Model.FileName.Replace(extension, string.Empty);
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -82,12 +87,12 @@
                 THREE.Loader.Handlers.add( /\.dds$/i, new THREE.DDSLoader() );
                 var mtlLoader = new THREE.MTLLoader();
                 mtlLoader.setPath( '@Url.Content("/sample/")' );
-                mtlLoader.load( 'sample.mtl', function( materials ) {
+                mtlLoader.load( "@filename" + ".mtl" , function( materials ) {
                     materials.preload();
                     var objLoader = new THREE.OBJLoader();
                     objLoader.setMaterials( materials );
                     objLoader.setPath( '@Url.Content("/sample/")' );
-                    objLoader.load( 'sample.obj', function ( object ) {
+                    objLoader.load( "@filename" + ".obj", function ( object ) {
                         object.scale.x = 10;
                         object.scale.y = 10;
                         object.scale.z = 10;

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using ifc_web_viewer.Models.UploadFilesViewModels;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.AspNetCore.Identity;
 
 namespace ifc_web_viewer.Controllers
 {
@@ -18,10 +19,12 @@ namespace ifc_web_viewer.Controllers
     public class UploadFilesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private UserManager<ApplicationUser> _userManager;
 
-        public UploadFilesController(ApplicationDbContext context)
+        public UploadFilesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: UploadFiles
@@ -75,18 +78,22 @@ namespace ifc_web_viewer.Controllers
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Post(UploadFilesViewModel files)
         {
             //long size = files.Sum(f => f.UploadFile.Length);
 
             // full path to file in temp location
-            var filePath = Path.GetTempFileName();
+            //var filePath = Path.GetTempFileName();
 
+
+            var applicationUser = await _userManager.GetUserAsync(User);
 
             var ifcConvert = new IFCConvertModel();
 
             string save_directory = "/opt/dotnet/src/ifc_web_viewer/wwwroot/sample/";
-            string file_path = save_directory + DateTime.Now.Ticks.ToString() + ".ifc";
+            string file_name = DateTime.Now.Ticks.ToString() + ".ifc";
+            string file_path = save_directory + file_name;
 
 
             foreach (var formFile in files.UploadFiles)
@@ -97,6 +104,17 @@ namespace ifc_web_viewer.Controllers
                     {
                         await formFile.CopyToAsync(stream);
                         await ifcConvert.ConvertIfcToObjAsync(file_path);
+
+                        var uploadFile = new UploadFile
+                        {
+                            FileName = file_name,
+                            FilePath = save_directory,
+                            FileSize = formFile.Length,
+                            UploadDate = DateTime.Now,
+                            ApplicationUser = applicationUser
+                        };
+                        _context.UploadFiles.Add(uploadFile);
+                        _context.SaveChanges();
                     }
                 }
             }
@@ -189,9 +207,11 @@ namespace ifc_web_viewer.Controllers
 
 
         // GET: UploadFiles/Preview/5
-        public ActionResult Preview(long? id)
+        public async Task<ActionResult> Preview(long? id)
         {
-            return View();
+            var uploadFile = await _context.UploadFiles.SingleOrDefaultAsync(m => m.Id == id);
+
+            return View(uploadFile);
         }
 
 
