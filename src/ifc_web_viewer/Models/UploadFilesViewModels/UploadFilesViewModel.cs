@@ -12,6 +12,6 @@ namespace ifc_web_viewer.Models.UploadFilesViewModels
         [Required]
         [Display(Name = "Upload File")]
         [FileExtensions(Extensions = "jpg,png,gif,jpeg,bmp,svg,ifc")]
-        public IFormFile UploadFile { get; set; }
+        public List<IFormFile> UploadFiles { get; set; }
     }
 }

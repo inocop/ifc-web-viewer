@@ -9,6 +9,8 @@ using ifc_web_viewer.Data;
 using ifc_web_viewer.Models;
 using Microsoft.AspNetCore.Authorization;
 using ifc_web_viewer.Models.UploadFilesViewModels;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace ifc_web_viewer.Controllers
 {
@@ -70,6 +72,40 @@ namespace ifc_web_viewer.Controllers
             }
             return View(uploadFile);
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Post(UploadFilesViewModel files)
+        {
+            //long size = files.Sum(f => f.UploadFile.Length);
+
+            // full path to file in temp location
+            var filePath = Path.GetTempFileName();
+
+
+            var ifcConvert = new IFCConvertModel();
+
+            string save_directory = "/opt/dotnet/src/ifc_web_viewer/wwwroot/sample/";
+            string file_path = save_directory + DateTime.Now.Ticks.ToString() + ".ifc";
+
+
+            foreach (var formFile in files.UploadFiles)
+            {
+                if (formFile.Length > 0)
+                {
+                    using (var stream = new FileStream(file_path, FileMode.Create))
+                    {
+                        await formFile.CopyToAsync(stream);
+                        await ifcConvert.ConvertIfcToObjAsync(file_path);
+                    }
+                }
+            }
+            // process uploaded files
+            // Don't rely on or trust the FileName property without validation.
+
+            return RedirectToAction("Index", "UploadFiles");
+        }
+
 
         // GET: UploadFiles/Edit/5
         public async Task<IActionResult> Edit(long? id)
